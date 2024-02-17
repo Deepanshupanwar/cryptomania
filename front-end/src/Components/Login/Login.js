@@ -1,16 +1,46 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import "./Login.css";
+import { useContext, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { userContext } from "../../userContext";
+
 export default function Login() {
   // const [usermail, setUsermail] = useState('');
   // const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(false);
   const { register, control, handleSubmit, formState } = useForm();
+  const {setUserInfo} = useContext(userContext);
+
   const {errors} = formState;
   const onSubmit = async(data) => {
-    console.log("form submitted ",data);
+    const response = await fetch('http://localhost:4000/login',{
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{'Content-type': 'application/json'},
+    });
+    if(response.ok){
+      response.json().then(userInfo=>{
+        console.log(userInfo)
+        setUserInfo(userInfo);
+        setRedirect(true);
+      })
+    }
+    else
+    {
+      toast.error('Wrong email or password!')
+    }
   };
+
+  if(redirect)
+  {
+    return <Navigate to={'/'}/>
+  }
+
   return (
+    <>
+    <Toaster/>
     <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Link
@@ -107,5 +137,6 @@ export default function Login() {
         </div>
       </div>
     </section>
+    </>
   );
 }

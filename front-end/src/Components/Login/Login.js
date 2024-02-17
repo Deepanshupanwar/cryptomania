@@ -11,7 +11,7 @@ export default function Login() {
   // const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
   const { register, control, handleSubmit, formState } = useForm();
-  const {setUserInfo} = useContext(userContext);
+  const {userInfo,setUserInfo} = useContext(userContext);
 
   const {errors} = formState;
   const onSubmit = async(data) => {
@@ -22,7 +22,7 @@ export default function Login() {
     });
     if(response.ok){
       response.json().then(userInfo=>{
-        console.log(userInfo)
+        
         setUserInfo(userInfo);
         setRedirect(true);
       })
@@ -37,7 +37,7 @@ export default function Login() {
   {
     return <Navigate to={'/'}/>
   }
-
+  
   return (
     <>
     <Toaster/>

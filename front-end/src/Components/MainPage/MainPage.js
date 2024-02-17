@@ -3,8 +3,8 @@ import { userContext } from "../../userContext"
 
 
 export default function MainPage(){
-    const {userinfo} =useContext(userContext);
-    console.log(userinfo);
+    const {userInfo} =useContext(userContext);
+    
     return (
         <div>
             hello

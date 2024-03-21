@@ -45,14 +45,14 @@ export default function MainPage() {
         console.log("1");
         setUserInfo(payload);
     };
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(()=>{
         socket?.on('friendRequest', handleFriendRequest);
 
         return ()=>{
             socket?.off('friendRequest',handleFriendRequest)
         }
-    },[socket,handleFriendRequest])
+    },[socket])
 
     return (
         <div className="min-h-screen flex flex-col">

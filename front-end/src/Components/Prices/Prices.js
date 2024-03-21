@@ -14,10 +14,10 @@ export default function Prices({coinCount}){
           });
         
     }
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(()=>{
         getcoins();
-    },[getcoins]);
+    },[]);
 
     const filteredCoins = coins.filter(coin =>
         coin.name.toLowerCase()

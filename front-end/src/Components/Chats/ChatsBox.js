@@ -47,7 +47,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
             handleSubmit()
         }
     }
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(()=>{
         socket.on('getMessage', (payload) => {
             if(selectedChatCompare!==null && payload.chat._id===selectedChatCompare._id){
@@ -58,12 +58,12 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
         return ()=>{
             socket.off('getMessage');
         }
-    },[socket, getChats])
+    },[socket])
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (chatSelected) {
             selectedChatCompare=chatSelected

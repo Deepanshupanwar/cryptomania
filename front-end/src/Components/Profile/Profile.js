@@ -128,21 +128,21 @@ export default function Profile() {
             }
         }
     }, [open]);
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getposts()
-    }, [id,getposts])
-
+    }, [id])
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getProfile()
-    }, [id,getProfile])
-
+    }, [id])
+// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         socket?.on('requestsended', async (payload) => {
             toast.success(payload.message);
         })
         return () => { socket?.off('requestsended'); }
-    }, [socket])
+    }, [])
 
     return (
         <>

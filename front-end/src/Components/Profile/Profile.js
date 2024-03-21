@@ -131,18 +131,18 @@ export default function Profile() {
 
     useEffect(() => {
         getposts()
-    }, [id])
+    }, [id,getposts])
 
     useEffect(() => {
         getProfile()
-    }, [id])
+    }, [id,getProfile])
 
     useEffect(() => {
         socket?.on('requestsended', async (payload) => {
             toast.success(payload.message);
         })
         return () => { socket?.off('requestsended'); }
-    }, [])
+    }, [socket])
 
     return (
         <>

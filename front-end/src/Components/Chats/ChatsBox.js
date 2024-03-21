@@ -58,7 +58,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
         return ()=>{
             socket.off('getMessage');
         }
-    },[])
+    },[socket, getChats])
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

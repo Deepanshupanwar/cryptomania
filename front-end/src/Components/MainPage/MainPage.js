@@ -52,7 +52,7 @@ export default function MainPage() {
         return ()=>{
             socket?.off('friendRequest',handleFriendRequest)
         }
-    },[socket])
+    },[socket,handleFriendRequest])
 
     return (
         <div className="min-h-screen flex flex-col">

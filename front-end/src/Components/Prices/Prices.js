@@ -17,7 +17,7 @@ export default function Prices({coinCount}){
 
     useEffect(()=>{
         getcoins();
-    },[]);
+    },[getcoins]);
 
     const filteredCoins = coins.filter(coin =>
         coin.name.toLowerCase()

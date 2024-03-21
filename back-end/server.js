@@ -36,7 +36,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 //test start
 
-app.get('/', async (req, res) => {
+app.get('/api', async (req, res) => {
   await mongoose.connect(process.env.DATABASE_URL);
   console.log("hello");
   res.send("<p>hello</p>");

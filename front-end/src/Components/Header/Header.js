@@ -21,7 +21,7 @@ export default function Header() {
 
     function logout(ev) {
         ev.preventDefault();
-        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/logout', {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/logout`, {
             credentials: 'include',
             method: 'POST',
         });

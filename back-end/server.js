@@ -28,7 +28,7 @@ const salt = bcrypt.genSaltSync(10);
 });*/
 
 
-app.use(cors({ credentials: true, origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app' }));
+app.use(cors({ credentials: true, origin: process.env.VERCEL_URL }));
 app.use(express.json());
 app.use(cookieparser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -809,7 +809,7 @@ const server = app.listen(process.env.PORT);
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://cryptomania-deepanshus-projects-b59175f2.vercel.app",
+    origin: process.env.VERCEL_URL,
     // credentials: true,
   },
 });

@@ -15,7 +15,7 @@ export default function Login() {
 
   const {errors} = formState;
   const onSubmit = async(data) => {
-    const response = await fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/login/',{
+    const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}/api/login/`,{
       method: 'POST',
       body: JSON.stringify(data),
       headers:{'Content-type': 'application/json'},
@@ -25,7 +25,7 @@ export default function Login() {
       response.json().then(userInfo=>{
         setUserInfo(userInfo);
         setRedirect(true);
-        setSocket(io('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/'))
+        setSocket(io(`${process.env.REACT_APP_VERCEL_URL}`))
       })
     }
     else

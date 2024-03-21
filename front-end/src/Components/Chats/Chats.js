@@ -12,7 +12,7 @@ export default function Chats(){
     const {userInfo} = useContext(userContext);
     
     const getChats = async () => {
-        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/chats', {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/chats`, {
             method: 'get',
             credentials: 'include'
         })

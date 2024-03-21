@@ -15,7 +15,7 @@ export default function Register() {
     const onSubmit = async(data)=>{
         if(data.password === data.confirm_password)
         {
-            const response = await fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/register', {
+            const response = await fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/register', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {'Content-type':'application/json'},

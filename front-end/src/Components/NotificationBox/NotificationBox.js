@@ -11,7 +11,7 @@ export default function NotificationsBox() {
     const [openNotify, setOpenNotify] = useState(false);
     const handleAccept = (event, sender_id) => {
         event.stopPropagation();
-        fetch('http://localhost:4000/api/accept', {
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/accept', {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             credentials: "include",
@@ -29,7 +29,7 @@ export default function NotificationsBox() {
     const handleReject = (event, sender_id) => {
         event.stopPropagation();
 
-        fetch('http://localhost:4000/api/reject', {
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/reject', {
             method: 'DELETE',
             headers: { 'Content-type': 'application/json' },
             credentials: "include",

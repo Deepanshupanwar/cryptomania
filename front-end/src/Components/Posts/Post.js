@@ -33,7 +33,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleDeletePost = (event, id) => {
         event.stopPropagation()
         if(userInfo!==null){
-        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/deletePost', {
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/deletePost', {
             method: "DELETE",
             headers: { "Content-type": 'application/json' },
             credentials: "include",
@@ -62,7 +62,7 @@ export default function Post({ posts, setPosts, userid }) {
         event.stopPropagation();
         if(userInfo!==null){
         if (caption !== "" && editIndex >= 0 && editIndex < posts.length) {
-            fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/editPost/'+userid, {
+            fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/editPost/'+userid, {
                 method: "PUT",
                 headers: { "Content-type": 'application/json' },
                 credentials: "include",
@@ -100,7 +100,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleLikeClick = async (index) => {
         
         if(userInfo!==null){
-        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/like',{
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/like',{
             method:'PUT',
             headers:{'Content-type': 'application/json'},
             credentials: 'include',
@@ -125,7 +125,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleDislikeClick = async (index) => {
 
         if(userInfo!==null){
-            fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/dislike',{
+            fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/dislike',{
                 method:'PUT',
                 credentials: 'include',
                 headers:{'Content-type': 'application/json'},

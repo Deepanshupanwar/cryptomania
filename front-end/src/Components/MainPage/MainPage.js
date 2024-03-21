@@ -14,7 +14,7 @@ export default function MainPage() {
     const {setUserInfo ,userInfo, socket} = useContext(userContext);
     const [posts, setPosts] = useState(null);
     const getpost = async () => {
-        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/getPost',{
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/getPost',{
             method:'GET',
         })
             .then(res => res.json())

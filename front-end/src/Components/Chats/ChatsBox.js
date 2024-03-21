@@ -14,7 +14,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
 
 
     const getMessages = async () => {
-        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/message/' + chatSelected._id, {
+        fetch('https://cryptomania-deepanshus-projects-b59175f2.vercel.app/api/message/' + chatSelected._id, {
             method: 'GET',
             credentials: 'include'
         })

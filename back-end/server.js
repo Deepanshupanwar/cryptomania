@@ -19,12 +19,13 @@ require('dotenv').config();
 
 const app = express();
 const salt = bcrypt.genSaltSync(10);
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
+
+
+/*const io = new Server(httpServer, {
   cors: {
     origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app'
   }
-});
+});*/
 
 
 app.use(cors({ credentials: true, origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app' }));
@@ -803,7 +804,15 @@ app.get('/api/message/:chatId', async (req, res) => {
 //end get message
 
 
+const server = app.listen(process.env.PORT);
 
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "https://cryptomania-deepanshus-projects-b59175f2.vercel.app",
+    // credentials: true,
+  },
+});
 
 
 
@@ -905,6 +914,3 @@ io.on("connection", (socket) => {
 
 
 
-//end notification with socket io
-app.listen(process.env.PORT);
-httpServer.listen(process.env.PORT);

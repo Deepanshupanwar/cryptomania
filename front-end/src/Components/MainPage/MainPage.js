@@ -14,7 +14,7 @@ export default function MainPage() {
     const {setUserInfo ,userInfo, socket} = useContext(userContext);
     const [posts, setPosts] = useState(null);
     const getpost = async () => {
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/getPost`,{
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/getPost`,{
             method:'GET',
         })
             .then(res => res.json())

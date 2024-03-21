@@ -15,7 +15,7 @@ export default function Login() {
 
   const {errors} = formState;
   const onSubmit = async(data) => {
-    const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}/api/login/`,{
+    const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}api/login/`,{
       method: 'POST',
       body: JSON.stringify(data),
       headers:{'Content-type': 'application/json'},

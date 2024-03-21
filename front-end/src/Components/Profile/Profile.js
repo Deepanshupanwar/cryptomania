@@ -21,7 +21,7 @@ export default function Profile() {
     const [scroll, setScroll] = useState('paper');
     const { register, handleSubmit } = useForm();
     const getProfile = async () => {
-        const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}/api/profile/` + id, {
+        const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}api/profile/` + id, {
             method: 'GET'
         })
         if (response.status === 200) {
@@ -49,7 +49,7 @@ export default function Profile() {
 
     const removeFriend = async (id) => {
         if (userInfo !== null) {
-            fetch(`${process.env.REACT_APP_VERCEL_URL}/api/removefriend`, {
+            fetch(`${process.env.REACT_APP_VERCEL_URL}api/removefriend`, {
                 method: 'DELETE',
                 credentials: "include",
                 headers: { 'Content-type': 'application/json' },
@@ -73,7 +73,7 @@ export default function Profile() {
         newdata.set('lastName', data.lastName);
         newdata.set('file', data.file[0]);
         if (userInfo !== null) {
-            fetch(`${process.env.REACT_APP_VERCEL_URL}/api/profileEdit`, {
+            fetch(`${process.env.REACT_APP_VERCEL_URL}api/profileEdit`, {
                 method: 'PUT',
                 credentials: 'include',
                 body: newdata
@@ -93,7 +93,7 @@ export default function Profile() {
     }
 
     const getposts = async () => {
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/getPost/` + id, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/getPost/` + id, {
             method: 'GET',
         })
             .then(res => res.json())

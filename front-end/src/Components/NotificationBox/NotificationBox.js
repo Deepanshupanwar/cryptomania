@@ -11,7 +11,7 @@ export default function NotificationsBox() {
     const [openNotify, setOpenNotify] = useState(false);
     const handleAccept = (event, sender_id) => {
         event.stopPropagation();
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/accept`, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/accept`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             credentials: "include",
@@ -29,7 +29,7 @@ export default function NotificationsBox() {
     const handleReject = (event, sender_id) => {
         event.stopPropagation();
 
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/reject`, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/reject`, {
             method: 'DELETE',
             headers: { 'Content-type': 'application/json' },
             credentials: "include",

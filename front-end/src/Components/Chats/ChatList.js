@@ -13,7 +13,7 @@ export default function ChatList({setChatSelected, mychats, setMyChats, chatSele
     }
 
     const handleCreateChat = (friendId) => {
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/chats`, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/chats`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },

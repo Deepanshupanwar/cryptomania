@@ -47,7 +47,7 @@ export default function SearchBox() {
             if (input !== "") {
                 try {
                     const response = await fetch(
-                        `${process.env.REACT_APP_VERCEL_URL}/api/search/${input}`,
+                        `${process.env.REACT_APP_VERCEL_URL}api/search/${input}`,
                         {
                             method: "GET",
                             signal,

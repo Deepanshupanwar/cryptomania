@@ -33,7 +33,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleDeletePost = (event, id) => {
         event.stopPropagation()
         if(userInfo!==null){
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/deletePost`, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/deletePost`, {
             method: "DELETE",
             headers: { "Content-type": 'application/json' },
             credentials: "include",
@@ -62,7 +62,7 @@ export default function Post({ posts, setPosts, userid }) {
         event.stopPropagation();
         if(userInfo!==null){
         if (caption !== "" && editIndex >= 0 && editIndex < posts.length) {
-            fetch(`${process.env.REACT_APP_VERCEL_URL}/api/editPost/`+userid, {
+            fetch(`${process.env.REACT_APP_VERCEL_URL}api/editPost/`+userid, {
                 method: "PUT",
                 headers: { "Content-type": 'application/json' },
                 credentials: "include",
@@ -100,7 +100,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleLikeClick = async (index) => {
         
         if(userInfo!==null){
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/like`,{
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/like`,{
             method:'PUT',
             headers:{'Content-type': 'application/json'},
             credentials: 'include',
@@ -125,7 +125,7 @@ export default function Post({ posts, setPosts, userid }) {
     const handleDislikeClick = async (index) => {
 
         if(userInfo!==null){
-            fetch(`${process.env.REACT_APP_VERCEL_URL}/api/dislike`,{
+            fetch(`${process.env.REACT_APP_VERCEL_URL}api/dislike`,{
                 method:'PUT',
                 credentials: 'include',
                 headers:{'Content-type': 'application/json'},

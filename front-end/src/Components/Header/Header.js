@@ -21,7 +21,7 @@ export default function Header() {
 
     function logout(ev) {
         ev.preventDefault();
-        fetch(`${process.env.REACT_APP_VERCEL_URL}/api/logout`, {
+        fetch(`${process.env.REACT_APP_VERCEL_URL}api/logout`, {
             credentials: 'include',
             method: 'POST',
         });

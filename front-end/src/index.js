@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter} from 'react-router-dom';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import { UserContextProvider } from './userContext';
 import MainPage from './Components/MainPage/MainPage';
+import Profile from './Components/Profile/Profile';
+import Chats from './Components/Chats/Chats';
+import MobliePrice from './Components/MobliePrice/MobliePrice';
+import MoblieNews from './Components/MoblieNews/MoblieNews';
+
 
 const router = createBrowserRouter([
   {path:"/",
@@ -17,14 +22,26 @@ const router = createBrowserRouter([
   },
   {path:"/register",
   element: <Register/>
-  }
+  },
+  {path:"/profile/:id",
+  element: <Profile/>
+  },
+  {path:"/chats",
+  element: <Chats/>
+  },
+  {path:"/prices",
+  element:<MobliePrice/> 
+  },
+  {path:"/news",
+  element: <MoblieNews/>
+  },
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserContextProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} /> 
     </UserContextProvider>
   </React.StrictMode>
  

@@ -1,0 +1,12 @@
+@media (max-width: 760px) {
+    .main-price{
+        display: none;
+        height: 0;
+        width: 0;
+    }
+    .main-news{
+        display: none;
+        height: 0;
+        width: 0;
+    }
+}

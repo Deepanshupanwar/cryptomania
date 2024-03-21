@@ -1,35 +1,37 @@
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import "./Login.css";
 import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { userContext } from "../../userContext";
+import { io } from "socket.io-client";
 
 export default function Login() {
   // const [usermail, setUsermail] = useState('');
   // const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
-  const { register, control, handleSubmit, formState } = useForm();
-  const {userInfo,setUserInfo} = useContext(userContext);
+  const { register, handleSubmit, formState } = useForm();
+  const {setUserInfo,setSocket} = useContext(userContext);
 
   const {errors} = formState;
   const onSubmit = async(data) => {
-    const response = await fetch('http://localhost:4000/login',{
+    const response = await fetch('http://localhost:4000/api/login/',{
       method: 'POST',
       body: JSON.stringify(data),
       headers:{'Content-type': 'application/json'},
+      credentials: 'include',
     });
     if(response.ok){
       response.json().then(userInfo=>{
-        
         setUserInfo(userInfo);
         setRedirect(true);
+        setSocket(io('http://localhost:4000/'))
       })
     }
     else
     {
-      toast.error('Wrong email or password!')
+      const res= await response.json();
+      toast.error(res.error)
     }
   };
 
@@ -131,7 +133,6 @@ export default function Login() {
                   Sign up
                 </Link>
               </p>
-              <DevTool control={control}/>
             </form>
           </div>
         </div>

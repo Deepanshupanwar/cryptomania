@@ -1,0 +1,29 @@
+@media (max-width: 760px) {
+    .header-right {
+      display: none;
+    }
+    .header{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .header-right-main{
+        width: 100px;
+    }
+    .header-center-main{
+        width: 100%;
+    }
+    .header-left-name{
+        display: none;
+    }
+    .header-right-icon { 
+        display: block !important;; 
+      }
+}
+@media (min-width: 760px) {
+    .header-right-icon {
+      display: none !important;
+    }
+}
+
+
+

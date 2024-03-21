@@ -1,0 +1,33 @@
+@media (max-width: 760px) {
+    .main-chat{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-height: 100vh;
+        padding-top: 2rem;
+        flex-direction: column;
+    }
+    .chatbox{
+        width: 100vw;
+        margin-left: 0;
+        padding: 8px;
+    }
+    .show-chatbox{
+        display: none;
+    }
+    .show-chatlist{
+        display: none;
+    }
+
+    .back-arrow {
+        display: inline-block !important;
+        margin-right: 10px;
+      }
+    
+}
+
+@media (min-width: 760px) {
+    .back-arrow {
+      display: none !important;
+    }
+}

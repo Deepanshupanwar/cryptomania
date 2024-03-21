@@ -1,39 +1,47 @@
 import { Link, Navigate } from 'react-router-dom'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './Register.css'
 import { useForm } from 'react-hook-form'
-import { DevTool } from '@hookform/devtools';
+
 import toast, {Toaster} from 'react-hot-toast';
+import { userContext } from '../../userContext';
 
 export default function Register() {
-    // const [usermail, setUsermail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [confirm, setConfirm] = useState('');
+   
     const [redirect, setRedirect] = useState(false);
-    const {register, control ,handleSubmit, formState} =useForm();
+    const {setUserInfo}  = useContext(userContext);
+    const {register,handleSubmit, formState} =useForm();
     const {errors} = formState;
     const onSubmit = async(data)=>{
         if(data.password === data.confirm_password)
         {
-            const response = await fetch('http://localhost:4000/register', {
+            const response = await fetch('http://localhost:4000/api/register', {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: {'Content-type':'application/json'}
+                headers: {'Content-type':'application/json'},
+                credentials: 'include'
             })
             if(response.status===200)
             {
-                setRedirect(true);
+                toast.success("account created successfully")
+                response.json().then(userInfo=>{
+                    setUserInfo(userInfo);
+                    setRedirect(true);
+                  })
             }
             if(response.status===400)
             {
                 toast.error("Email already exists!")
             }
+            else
+            {
+                
+                toast.error("internal error")
+            }
         }
         else
         {
-            alert("password didn't match");
+            toast.error("password didn't match");
         }
     }
 
@@ -146,7 +154,6 @@ export default function Register() {
                                 />
                             </div>
                             <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center">Submit</button>
-                            <DevTool control={control}/>
                         </form>
 
                     </div>

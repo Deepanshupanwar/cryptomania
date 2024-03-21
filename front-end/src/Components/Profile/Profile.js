@@ -21,7 +21,7 @@ export default function Profile() {
     const [scroll, setScroll] = useState('paper');
     const { register, handleSubmit } = useForm();
     const getProfile = async () => {
-        const response = await fetch('http://localhost:4000/api/profile/' + id, {
+        const response = await fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/profile/' + id, {
             method: 'GET'
         })
         if (response.status === 200) {
@@ -49,7 +49,7 @@ export default function Profile() {
 
     const removeFriend = async (id) => {
         if (userInfo !== null) {
-            fetch('http://localhost:4000/api/removefriend', {
+            fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/removefriend', {
                 method: 'DELETE',
                 credentials: "include",
                 headers: { 'Content-type': 'application/json' },
@@ -73,7 +73,7 @@ export default function Profile() {
         newdata.set('lastName', data.lastName);
         newdata.set('file', data.file[0]);
         if (userInfo !== null) {
-            fetch('http://localhost:4000/api/profileEdit', {
+            fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/profileEdit', {
                 method: 'PUT',
                 credentials: 'include',
                 body: newdata
@@ -93,7 +93,7 @@ export default function Profile() {
     }
 
     const getposts = async () => {
-        fetch('http://localhost:4000/api/getPost/' + id, {
+        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/getPost/' + id, {
             method: 'GET',
         })
             .then(res => res.json())

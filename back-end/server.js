@@ -22,12 +22,12 @@ const salt = bcrypt.genSaltSync(10);
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:3000'
+    origin: 'https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/'
   }
 });
 
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: 'https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/' }));
 app.use(express.json());
 app.use(cookieparser());
 app.use('/uploads', express.static(__dirname + '/uploads'));

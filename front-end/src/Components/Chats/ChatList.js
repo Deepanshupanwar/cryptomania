@@ -13,7 +13,7 @@ export default function ChatList({setChatSelected, mychats, setMyChats, chatSele
     }
 
     const handleCreateChat = (friendId) => {
-        fetch('http://localhost:4000/api/chats', {
+        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/chats', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },

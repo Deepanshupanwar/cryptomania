@@ -17,7 +17,7 @@ export default function Uploader({setPosts}) {
         newdata.set('caption', data.caption);
         newdata.set('file', data.file[0]);
         if(userInfo!==null){
-        fetch('http://localhost:4000/api/post', {
+        fetch('https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/post', {
             method: 'POST',
             body: newdata,
             credentials: 'include',

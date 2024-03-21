@@ -47,7 +47,7 @@ export default function SearchBox() {
             if (input !== "") {
                 try {
                     const response = await fetch(
-                        `http://localhost:4000/api/search/${input}`,
+                        `https://cryptomania-c4r10zppn-deepanshus-projects-b59175f2.vercel.app/api/search/${input}`,
                         {
                             method: "GET",
                             signal,

@@ -52,6 +52,7 @@ export default function MainPage() {
         return ()=>{
             socket?.off('friendRequest',handleFriendRequest)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[socket])
 
     return (

@@ -17,6 +17,7 @@ export default function Prices({coinCount}){
 // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(()=>{
         getcoins();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const filteredCoins = coins.filter(coin =>

@@ -58,6 +58,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
         return ()=>{
             socket.off('getMessage');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[socket])
 
     useEffect(() => {
@@ -69,7 +70,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
             selectedChatCompare=chatSelected
             getMessages();
         }
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatSelected])
 
 

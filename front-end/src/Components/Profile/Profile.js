@@ -131,10 +131,12 @@ export default function Profile() {
 // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getposts()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getProfile()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
@@ -142,6 +144,7 @@ export default function Profile() {
             toast.success(payload.message);
         })
         return () => { socket?.off('requestsended'); }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

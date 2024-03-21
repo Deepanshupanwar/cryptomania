@@ -3,7 +3,7 @@ import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Dialog from '@mui/material/Dialog';
 import { formatDistance } from "date-fns";
-import { Link, useParams, } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { userContext } from "../../userContext";

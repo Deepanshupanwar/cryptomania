@@ -73,7 +73,7 @@ export default function MainPage() {
                 </div>
                 <div className="w-full md:w-1/3 p-2  main-news">
                     <div className="max-h-[87vh] overflow-y-auto no-scrollbar">
-                        <News />
+                        
                     </div>
                 </div>
             </div>

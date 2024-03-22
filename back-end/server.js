@@ -19,16 +19,16 @@ require('dotenv').config();
 
 const app = express();
 const salt = bcrypt.genSaltSync(10);
+const httpServer = createServer(app);
 
-
-/*const io = new Server(httpServer, {
+const io = new Server(httpServer, {
   cors: {
-    origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app'
+    origin: 'http://localhost:3000'
   }
-});*/
+})
 
 
-app.use(cors({ credentials: true, origin: process.env.VERCEL_URL }));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieparser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -804,15 +804,9 @@ app.get('/api/message/:chatId', async (req, res) => {
 //end get message
 
 
-const server = app.listen(process.env.PORT);
 
-const io = require("socket.io")(server, {
-  pingTimeout: 60000,
-  cors: {
-    origin: process.env.VERCEL_URL,
-    // credentials: true,
-  },
-});
+
+
 
 
 
@@ -914,3 +908,4 @@ io.on("connection", (socket) => {
 
 
 
+httpServer.listen(process.env.PORT)

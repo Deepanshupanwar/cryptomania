@@ -23,12 +23,12 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'https://cryptomaina-backend.com'
+    origin: process.env.BASE_URL
   }
 })
 
 
-app.use(cors({ credentials: true, origin: 'https://cryptomaina-backend.com/' }));
+app.use(cors({ credentials: true, origin: process.env.BASE_URL }));
 app.use(express.json());
 app.use(cookieparser());
 app.use('/uploads', express.static(__dirname + '/uploads'));

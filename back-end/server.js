@@ -70,7 +70,8 @@ app.post('/api/register', async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.SECRET, {});
 
     res.cookie('token', token, {
-      sameSite: 'none'
+      sameSite: 'none',
+      secure: true,
   }).json(newUser);
   } catch (error) {
     if (error.code === 11000) {
@@ -116,7 +117,8 @@ app.post('/api/login', async (req, res) => {
     const token = jwt.sign({ username, id: user_data.id }, process.env.SECRET, {});
 
     res.cookie('token', token, {
-      sameSite: 'none'
+      sameSite: 'none',
+      secure: true,
   }).json(user_data);
   } catch (error) {
 

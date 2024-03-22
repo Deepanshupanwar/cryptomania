@@ -1,7 +1,7 @@
 import Header from "../Header/Header";
 import Prices from "../Prices/Prices";
 import Uploader from "../Uploader/Uploader";
-import News from "../News/News";
+//import News from "../News/News";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../../userContext";
 import '../MainPage/MainPage.css'

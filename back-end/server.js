@@ -23,12 +23,12 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app'
+    origin: 'https://cryptomaina-backend.com'
   }
 })
 
 
-app.use(cors({ credentials: true, origin: 'https://cryptomania-deepanshus-projects-b59175f2.vercel.app' }));
+app.use(cors({ credentials: true, origin: 'https://cryptomaina-backend.com/' }));
 app.use(express.json());
 app.use(cookieparser());
 app.use('/uploads', express.static(__dirname + '/uploads'));

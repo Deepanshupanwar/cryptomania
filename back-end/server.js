@@ -69,7 +69,9 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser._id }, process.env.SECRET, {});
 
-    res.cookie('token', token).json(newUser);
+    res.cookie('token', token, {
+      sameSite: 'none'
+  }).json(newUser);
   } catch (error) {
     if (error.code === 11000) {
 
@@ -113,7 +115,9 @@ app.post('/api/login', async (req, res) => {
     const username = user_data.firstName + ' ' + user_data.lastName;
     const token = jwt.sign({ username, id: user_data.id }, process.env.SECRET, {});
 
-    res.cookie('token', token).json(user_data);
+    res.cookie('token', token, {
+      sameSite: 'none'
+  }).json(user_data);
   } catch (error) {
 
     console.error('Error during login:', error);

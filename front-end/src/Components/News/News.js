@@ -32,7 +32,7 @@ export default function News(){
     return(
         <>
         <Toaster/>
-        {news &&news.map((data, index)=>(
+        {news &&news?.map((data, index)=>(
                <div key={index} className="bg-white shadow-md p-2 my-4 rounded-md">
                <div className="mb-4">
                  <a href={data.url} target="_blank" rel="noopener noreferrer">

@@ -98,7 +98,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
                     </div>
 
                     <div className="mb-10 overflow-y-auto h-96 no-scrollbar">
-                        {messages.map((message, index) => (
+                        {messages?.map((message, index) => (
                             <div key={index} className={`flex ${message.sender._id === userInfo._id ? 'justify-end' : 'justify-start'} mb-2`}>
                                 <div className={`p-2 rounded-lg ${message.sender._id === userInfo._id ? 'bg-green-200' : 'bg-gray-200'}`}>
                                     <p className="text-sm">{message.content}</p>

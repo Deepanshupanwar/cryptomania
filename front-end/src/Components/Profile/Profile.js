@@ -164,14 +164,14 @@ export default function Profile() {
                                 {...register('firstName')}
                                 className="w-full px-3 py-2 font-semibold text-gray-800 placeholder-gray-500 border border-gray-600 rounded-md focus:outline-none focus:ring focus:border-blue-300 mb-4"
                                 type="text"
-                                defaultValue={profileData.firstName}
+                                defaultValue={profileData?.firstName}
                                 placeholder="Edit FirstName"
                             />
                             <input
                                 {...register('lastName')}
                                 className="w-full px-3 py-2 font-semibold text-gray-800 placeholder-gray-500 border border-gray-600 rounded-md focus:outline-none focus:ring focus:border-blue-300 mb-4"
                                 type="text"
-                                defaultValue={profileData.lastName}
+                                defaultValue={profileData?.lastName}
                                 placeholder="Edit LastName"
 
                             />
@@ -205,7 +205,7 @@ export default function Profile() {
                                     onClick={handleClickOpen('body')}
                                 >
                                     Edit Profile
-                                </button>) : requested ? (<p className="text-blue-500 border border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-2 py-1 rounded-md">Requested</p>) : userInfo?.friends &&
+                                </button>) : (requested || profileData?.notifications?.some((notify) => notify.sender === userInfo?._id)) ? (<p className="text-blue-500 border border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-2 py-1 rounded-md">Requested</p>) : userInfo?.friends &&
                                     Array.isArray(userInfo.friends) &&
                                     userInfo?.friends?.some((friend) => friend._id === profileData?._id) ? (<button className="text-blue-500 border border-blue-500 hover:text-blue-700 hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-2 py-1 rounded-md"
                                         onClick={() => removeFriend(profileData._id)}

@@ -28,7 +28,7 @@ export default function Prices({coinCount}){
 
     <>
     <Toaster/>
-    {filteredCoins.map((coin, index) => (
+    {filteredCoins?.map((coin, index) => (
         <div key={index} className="coin-row border-b border-gray-300 py-4 grid grid-cols-4 items-center">
           <div className="flex items-center space-x-2 col-span-2">
             <img src={coin.image} alt="coin-logo" className="w-8 h-8 mr-2" />

@@ -57,7 +57,7 @@ export default function ChatList({setChatSelected, mychats, setMyChats, chatSele
                     <span className="text-lg font-semibold">My Chats</span>
                     <Search onClick={handleDrawer} className="cursor-pointer" />
                 </Box>
-                <Box className="flex flex-col flex-grow overflow-y-auto h-96 no-scrollbar">
+                <Box className="flex flex-col flex-grow overflow-y-auto  no-scrollbar">
                     {mychats.length > 0 ? (
                         mychats.map((chat, index) => (
                             <Box key={index} className="flex items-center py-3 px-4 border-b border-gray-300 hover:bg-gray-100 cursor-pointer" onClick={()=>{setChatSelected(chat)}}>

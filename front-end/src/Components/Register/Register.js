@@ -26,8 +26,8 @@ export default function Register() {
                 toast.success("account created successfully")
                 response.json().then(userInfo=>{
                     setUserInfo(userInfo);
-                    setSocket(io(`${process.env.REACT_APP_VERCEL_URL}`))
                     setRedirect(true);
+                    setSocket(io(`${process.env.REACT_APP_VERCEL_URL}`))
                   })
             }
             if(response.status===400)

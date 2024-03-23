@@ -76,7 +76,6 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
 
     return (
         <Box
-            display="flex"
             flexDirection="column"
             justifyContent="flex-end"
             padding={3}
@@ -87,7 +86,7 @@ export default function ChatBox({ chatSelected ,getChats, setChatSelected }) {
             height="83vh"
             width="75vw"
             marginLeft="40px"
-            className={`chatbox ${(chatSelected===null)?'show-chatbox':""}`}
+            className={`flex ${(chatSelected===null)?'show-chatbox':"chatbox"}`}
         >
             {chatSelected && (
                 <>

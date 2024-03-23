@@ -8,6 +8,7 @@ import '../MainPage/MainPage.css'
 import Post from "../Posts/Post";
 import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react"
 
 export default function MainPage() {
     const { id } = useParams();
@@ -77,6 +78,7 @@ export default function MainPage() {
                     </div>
                 </div>
             </div>
+            <Analytics/>
         </div>
     )
 }

@@ -37,7 +37,7 @@ export default function Chats(){
         <div>
             <Header/>
         
-        <div className="flex max-h-[87vh] pt-2 main-chat">
+        <div className="flex max-h-[86vh] pt-2 main-chat">
             <ChatList setChatSelected={setChatSelected} mychats={mychats} setMyChats={setMyChats} chatSelected={chatSelected}/>
             <ChatBox setChatSelected={setChatSelected} chatSelected={chatSelected}  getChats={getChats}/>
         </div>

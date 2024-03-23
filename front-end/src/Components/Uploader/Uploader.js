@@ -1,6 +1,6 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller  } from "react-hook-form";
 
-
+import TaskIcon from '@mui/icons-material/Task';
 import toast, { Toaster } from "react-hot-toast";
 
 import { AddPhotoAlternate } from "@mui/icons-material";
@@ -8,9 +8,9 @@ import { useContext } from "react";
 import { userContext } from "../../userContext";
 
 export default function Uploader({setPosts}) {
-    const { register, handleSubmit,reset } = useForm();
+    const { register, handleSubmit,reset, control, watch } = useForm();
     const {userInfo} = useContext(userContext);
-
+    const watchedValue = watch('file')
     const onSubmit = async (data) => {
 
         const newdata = new FormData();
@@ -57,15 +57,22 @@ export default function Uploader({setPosts}) {
                         required />
 
                     <div className="relative mt-3">
-                        <input
+                        <Controller
+                        name="file" 
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                    <input
                             {...register("file")}
                             type="file"
                             accept="image/*"
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                             required />
+                        )}
+                            />
                         <div className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
                             <span className="text-gray-500"><AddPhotoAlternate /></span>
-                            <span className="text-blue-500 cursor-pointer">Browse</span>
+                            <span className="text-blue-500 cursor-pointer">{(watchedValue)?(<TaskIcon/>):<>Browse</> }</span>
                         </div>
                     </div>
                     <button

@@ -64,7 +64,7 @@ export default function ChatList({setChatSelected, mychats, setMyChats, chatSele
                                 <Avatar src={chat.users[0]._id === userInfo._id ? (chat.users[1]?.profilePic) : (chat.users[0]?.profilePic)} className="w-10 h-10 rounded-full" />
                                 <Box className="ml-4">
                                     <p className="text-base font-medium">{chat.users[0]._id === userInfo._id ? (chat.users[1]?.firstName + ' ' + chat.users[1]?.lastName) : (chat.users[0]?.firstName + ' ' + chat.users[0]?.lastName)}</p>
-                                    <p className={`text-sm text-gray-600 ${chat.latestMessage?.sender?._id === userInfo._id? ('text-black'):chat.read? ('text-black') : ('text-blue-400')}`}>{chat.latestMessage && (chat.latestMessage.content.length > 20 ? chat.latestMessage.content.substring(0, 20) + "..." : chat.latestMessage.content)}</p>
+                                    <p className={`text-sm text-gray-600 ${chat.latestMessage?.sender?._id === userInfo._id? ('text-black'):(chat.read? ('text-black') : ('text-blue-400'))}`}>{chat.latestMessage && (chat.latestMessage.content.length > 20 ? chat.latestMessage.content.substring(0, 20) + "..." : chat.latestMessage.content)}</p>
                                 </Box>
                             </Box>
                         ))

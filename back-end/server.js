@@ -311,7 +311,7 @@ app.post('/api/post', uploader.single('file'), async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET, async (err, info) => {
+    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
       if (err) {
         console.error('JWT verification error:', err);
         if (err.name === 'TokenExpiredError') {
@@ -792,7 +792,7 @@ app.get('/api/message/:chatId', async (req, res) => {
       }
       await mongoose.connect(process.env.DATABASE_URL);
       const marktrue = await Chat.findById(chatId).populate('latestMessage');
-      if(marktrue.latestMessage.sender!==info.id)
+      if(marktrue?.latestMessage?.sender!==info.id)
       {
         await Chat.findByIdAndUpdate(chatId,{read: true});
       }

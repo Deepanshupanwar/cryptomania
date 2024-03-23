@@ -9,7 +9,7 @@ import { userContext } from '../../userContext';
 export default function Register() {
    
     const [redirect, setRedirect] = useState(false);
-    const {setUserInfo}  = useContext(userContext);
+    const {setUserInfo, setSocket}  = useContext(userContext);
     const {register,handleSubmit, formState} =useForm();
     const {errors} = formState;
     const onSubmit = async(data)=>{

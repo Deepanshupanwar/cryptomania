@@ -175,7 +175,7 @@ app.delete('/api/removefriend', async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET, async (err, info) => {
+    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -208,7 +208,7 @@ app.delete('/api/removefriend', async (req, res) => {
 app.put('/api/accept', async (req, res) => {
   try {
     const { token } = req.cookies;
-    jwt.verify(token, process.env.SECRET, async (err, info) => {
+    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -269,7 +269,7 @@ app.delete('/api/reject', async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET, async (err, info) => {
+    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }

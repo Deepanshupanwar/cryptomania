@@ -311,30 +311,21 @@ app.post('/api/post', uploader.single('file'), async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
-      if (err) {
-        console.error('JWT verification error:', err);
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
+    const info = jwt.verify(token, process.env.SECRET);
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
 
-      if (!req.file) {
-        return res.status(400).json({ error: 'No file provided' });
-      }
+    const { caption } = req.body;
 
-      const { caption } = req.body;
+    const upload = await cloudinary.v2.uploader.upload(req.file.path);
+    await mongoose.connect(process.env.DATABASE_URL);
+    await Post.create({ caption, image: upload.secure_url, author: info.id });
 
-      const upload = await cloudinary.v2.uploader.upload(req.file.path);
-      await mongoose.connect(process.env.DATABASE_URL);
-      await Post.create({ caption, image: upload.secure_url, author: info.id });
-
-      const posts = await Post.find().populate('author').sort({ createdAt: -1 });
-
-
-
-      res.json(posts);
-    });
-  } catch (error) {
-    console.error('An error occurred while creating a post:', error);
+    const posts = await Post.find().populate('author').sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (err) {
+    console.error('An error occurred while creating a post:', err);
     res.status(500).json({ error: 'An error occurred, please try again later' });
   }
 });

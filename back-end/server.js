@@ -314,13 +314,7 @@ app.post('/api/post', uploader.single('file'), async (req, res) => {
     jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
       if (err) {
         console.error('JWT verification error:', err);
-        if (err.name === 'TokenExpiredError') {
-          return res.status(401).json({ error: 'Token has expired' });
-        } else if (err.name === 'JsonWebTokenError') {
-          return res.status(401).json({ error: 'Invalid token provided' });
-        } else {
-          return res.status(401).json({ error: 'Invalid token' });
-        }
+        return res.status(401).json({ error: 'Unauthorized' });
       }
 
       if (!req.file) {

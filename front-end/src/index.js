@@ -11,6 +11,8 @@ import Profile from './Components/Profile/Profile';
 import Chats from './Components/Chats/Chats';
 import MobliePrice from './Components/MobliePrice/MobliePrice';
 import MoblieNews from './Components/MoblieNews/MoblieNews';
+import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import ResetPassword from './Components/ResetPassword/ResetPassword';
 
 
 const router = createBrowserRouter([
@@ -35,6 +37,13 @@ const router = createBrowserRouter([
   {path:"/news",
   element: <MoblieNews/>
   },
+  {path:"/forgotpassword",
+  element: <ForgotPassword/>
+  },
+  {
+    path: "/resetpassword/:id/:token",
+    element: <ResetPassword/>
+  }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,32 +1,26 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useParams} from "react-router-dom";
 import { useForm } from "react-hook-form";
-import "./Login.css";
-import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { userContext } from "../../userContext";
-import { io } from "socket.io-client";
+import { useState } from "react";
 
-export default function Login() {
-  // const [usermail, setUsermail] = useState('');
-  // const [password, setPassword] = useState('');
-  const [redirect, setRedirect] = useState(false);
+
+
+export default function ResetPassword() {
+  
   const { register, handleSubmit, formState } = useForm();
-  const {setUserInfo,setSocket} = useContext(userContext);
+  const {id, token} = useParams();
+  const [redirect, setRedirect] =useState(false);
 
   const {errors} = formState;
   const onSubmit = async(data) => {
-    const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}api/login/`,{
+    const response = await fetch(`${process.env.REACT_APP_VERCEL_URL}api/resetpassword/${id}/${token}`,{
       method: 'POST',
       body: JSON.stringify(data),
       headers:{'Content-type': 'application/json'},
-      credentials: 'include',
     });
     if(response.ok){
-      response.json().then(userInfo=>{
-        setUserInfo(userInfo);
+        toast.success("password changed ")
         setRedirect(true);
-        setSocket(io(`${process.env.REACT_APP_VERCEL_URL}`))
-      })
     }
     else
     {
@@ -37,8 +31,10 @@ export default function Login() {
 
   if(redirect)
   {
-    return <Navigate to={'/'}/>
+    return <Navigate to={'/login'}/>
   }
+
+  
   
   return (
     <>
@@ -59,37 +55,12 @@ export default function Login() {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Sign in to your account
+              Reset Password
             </h1>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="space-y-4 md:space-y-6"
             >
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Your email
-                </label>
-                <input
-                  {...register("email", {
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: "Invalid Email Format",
-                    },
-                  })}
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="name@company.com"
-                  required=""
-                //   value={usermail}
-                //   onChange={(e) => setUsermail(e.target.value)}
-                />
-              </div>
-              <p>{errors.email?.message}</p>
               <div>
                 <label
                   htmlFor="password"
@@ -111,10 +82,6 @@ export default function Login() {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   required=""
-                //   value={password}
-                //   onChange={(e) => {
-                //     setPassword(e.target.value);
-                //   }}
                 />
               </div>
               <p>{errors.password?.message}</p>
@@ -122,27 +89,8 @@ export default function Login() {
                 type="submit"
                 className="w-full text-white bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Sign in
+                Change Password
               </button>
-              <p className="text-sm font-light text-blue-500">
-                Forgot Your Password?{" "}
-                <Link
-                  to="/forgotpassword"
-                  className="font-medium text-primary-600 hover:underline"
-                >
-                  click here
-                </Link>
-              </p>
-
-              <p className="text-sm font-light text-gray-500">
-                Don't have an account yet?{" "}
-                <Link
-                  to="/register"
-                  className="font-medium text-primary-600 hover:underline"
-                >
-                  Sign up
-                </Link>
-              </p>
             </form>
           </div>
         </div>

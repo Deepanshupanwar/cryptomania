@@ -13,6 +13,7 @@ const cloudinary = require('./models/cloudinary.js');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const OnlineUser = require('./models/userOnline.js');
+const nodemailer = require('nodemailer');
 
 
 require('dotenv').config();
@@ -137,6 +138,71 @@ app.post('/api/logout', async (req, res) => {
 })
 
 //logout end
+
+
+//start forgotpassword
+
+app.post('/api/forgotPassword',async (req, res)=>{
+  try{
+    const {email} = req.body;
+    await mongoose.connect(process.env.DATABASE_URL);
+    const user= await User.findOne({email: email});
+    if(!user){
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const username = user.firstName + ' ' + user.lastName;
+    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresIn: "1d"});
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL,
+        pass: process.env.PASSWORD
+      }
+    });
+    
+    var mailOptions = {
+      from: 'mailfreeprotein@gmail.com',
+      to: email,
+      subject: 'Reset Password Link',
+      text: `http://localhost:3000/resetpassword/${user._id}/${token}`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: 'internal server error try again later' });
+      } else {
+        return res.json({Status: "ok"})
+      }
+    });
+  }
+  catch(err){
+    console.log(err)
+    return res.status(500).json({ error: 'internal server error try again later' });
+  }
+})
+
+//end forgotpassword
+
+//start resetpassword
+
+app.post('/api/resetpassword/:id/:token', async(req, res)=>{
+  try{
+    const {id, token} = req.params;
+    const {password} = req.body;
+    const info = jwt.verify(token, process.env.SECRET);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    await mongoose.connect(process.env.DATABASE_URL);
+    await User.findByIdAndUpdate({_id:id}, {password: hashedPassword});
+    res.json({status: "success"})
+  }
+  catch(err){
+    console.log(err);
+    return res.status(500).json({ error: 'internal server error try again later' });
+  }
+})
+
+//end resetpassword
 
 //start get profile
 

@@ -152,7 +152,7 @@ app.post('/api/forgotPassword',async (req, res)=>{
       return res.status(404).json({ error: 'User not found' });
     }
     const username = user.firstName + ' ' + user.lastName;
-    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresInMinutes: 30});
+    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresIn: '1d'});
     const client = Sib.ApiClient.instance
 
 const apiKey = client.authentications['api-key']
@@ -178,7 +178,7 @@ transactionalEmailApi
 		to: recivers,
 		htmlContent: `
 			<h1>Click the Link to change the password</h1>
-			<a href="http://localhost:3000/resetpassword/${user._id}/${token}">click here</a>
+			<a href="https://cryptomania-front.vercel.app/resetpassword/${user._id}/${token}">click here</a>
 		`,
 	})
 	.then(()=>{

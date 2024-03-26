@@ -13,7 +13,8 @@ const cloudinary = require('./models/cloudinary.js');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const OnlineUser = require('./models/userOnline.js');
-const nodemailer = require('nodemailer');
+const Sib = require('sib-api-v3-sdk')
+
 
 
 require('dotenv').config();
@@ -151,30 +152,40 @@ app.post('/api/forgotPassword',async (req, res)=>{
       return res.status(404).json({ error: 'User not found' });
     }
     const username = user.firstName + ' ' + user.lastName;
-    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresIn: "1d"});
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL,
-        pass: process.env.PASSWORD
-      }
-    });
-    
-    var mailOptions = {
-      from: 'mailfreeprotein@gmail.com',
-      to: email,
-      subject: 'Reset Password Link',
-      text: `http://localhost:3000/resetpassword/${user._id}/${token}`
-    };
-    
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-        return res.status(500).json({ error: 'internal server error try again later' });
-      } else {
-        return res.json({Status: "ok"})
-      }
-    });
+    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresInMinutes: 30});
+    const client = Sib.ApiClient.instance
+
+const apiKey = client.authentications['api-key']
+apiKey.apiKey = process.env.PASSWORD_KEY
+
+const sender = {
+	email: process.env.GMAIL,
+	// name: 'Anjan Shomodder',
+}
+
+const recivers = [
+	{
+		email: email,
+	},
+]
+
+const transactionalEmailApi = new Sib.TransactionalEmailsApi()
+
+transactionalEmailApi
+	.sendTransacEmail({
+		subject: 'Reset Password Link',
+		sender,
+		to: recivers,
+		htmlContent: `
+			<h1>Click the Link to change the password</h1>
+			<a href="http://localhost:3000/resetpassword/${user._id}/${token}">click here</a>
+		`,
+	})
+	.then(()=>{
+    res.json({status: "success"});
+  })
+
+
   }
   catch(err){
     console.log(err)
@@ -198,7 +209,7 @@ app.post('/api/resetpassword/:id/:token', async(req, res)=>{
   }
   catch(err){
     console.log(err);
-    return res.status(500).json({ error: 'internal server error try again later' });
+    return res.status(500).json({ error: 'invalid token' });
   }
 })
 

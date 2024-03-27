@@ -13,7 +13,7 @@ const cloudinary = require('./models/cloudinary.js');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const OnlineUser = require('./models/userOnline.js');
-const Sib = require('sib-api-v3-sdk')
+const SibApiV3Sdk = require('@getbrevo/brevo');
 
 
 
@@ -74,7 +74,7 @@ app.post('/api/register', async (req, res) => {
     res.cookie('token', token, {
       sameSite: 'none',
       secure: true,
-  }).json(newUser);
+    }).json(newUser);
   } catch (error) {
     if (error.code === 11000) {
 
@@ -121,7 +121,7 @@ app.post('/api/login', async (req, res) => {
     res.cookie('token', token, {
       sameSite: 'none',
       secure: true,
-  }).json(user_data);
+    }).json(user_data);
   } catch (error) {
 
     console.error('Error during login:', error);
@@ -143,50 +143,35 @@ app.post('/api/logout', async (req, res) => {
 
 //start forgotpassword
 
-app.post('/api/forgotPassword',async (req, res)=>{
-  try{
-    const {email} = req.body;
+app.post('/api/forgotPassword', async (req, res) => {
+  try {
+    const { email } = req.body;
     await mongoose.connect(process.env.DATABASE_URL);
-    const user= await User.findOne({email: email});
-    if(!user){
+    const user = await User.findOne({ email: email });
+    if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     const username = user.firstName + ' ' + user.lastName;
-    const token = jwt.sign({username,id: user._id}, process.env.SECRET, {expiresIn: '1d'});
-    const client = Sib.ApiClient.instance
+    const token = jwt.sign({ username, id: user._id }, process.env.SECRET, { expiresIn: '1d' });
+    let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-const apiKey = client.authentications['api-key']
-apiKey.apiKey = process.env.PASSWORD_KEY
+    let apiKey = apiInstance.authentications['apiKey'];
+    apiKey.apiKey = process.env.PASSWORD_KEY;
 
-const sender = {
-	email: process.env.GMAIL,
-	
-}
+    let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
-const recivers = [
-	{
-		email: email,
-	},
-]
-
-const transactionalEmailApi = new Sib.TransactionalEmailsApi()
-
-const result = await transactionalEmailApi
-	.sendTransacEmail({
-		subject: 'Reset Password Link',
-		sender,
-		to: recivers,
-		htmlContent: `
-			<h1>Click the Link to change the password</h1>
-			<a href="https://cryptomania-front.vercel.app/resetpassword/${user._id}/${token}">click here</a>
-		`,
-	})
-
-  res.json({status: "success"});
-
-
+    sendSmtpEmail.subject = "{{params.subject}}";
+    sendSmtpEmail.htmlContent =`
+    <h1>Click the Link to change the password</h1>
+    <a href="https://cryptomania-front.vercel.app/resetpassword/${user._id}/${token}">click here</a>
+  ` ;
+    sendSmtpEmail.sender = { "name": "Cryptomania", "email": process.env.GMAIL };
+    sendSmtpEmail.to = [{ "email": email, "name": username }];
+    sendSmtpEmail.params = { "parameter": "My param value", "subject": "Reset Password mail" };
+    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    res.json({ status: "success" });
   }
-  catch(err){
+  catch (err) {
     console.log(err)
     return res.status(500).json({ error: 'internal server error try again later' });
   }
@@ -196,17 +181,17 @@ const result = await transactionalEmailApi
 
 //start resetpassword
 
-app.post('/api/resetpassword/:id/:token', async(req, res)=>{
-  try{
-    const {id, token} = req.params;
-    const {password} = req.body;
+app.post('/api/resetpassword/:id/:token', async (req, res) => {
+  try {
+    const { id, token } = req.params;
+    const { password } = req.body;
     const info = jwt.verify(token, process.env.SECRET);
     const hashedPassword = bcrypt.hashSync(password, salt);
     await mongoose.connect(process.env.DATABASE_URL);
-    await User.findByIdAndUpdate({_id:id}, {password: hashedPassword});
-    res.json({status: "success"})
+    await User.findByIdAndUpdate({ _id: id }, { password: hashedPassword });
+    res.json({ status: "success" })
   }
-  catch(err){
+  catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'invalid token' });
   }
@@ -251,7 +236,7 @@ app.delete('/api/removefriend', async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
+    jwt.verify(token, process.env.SECRET, {}, async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -284,7 +269,7 @@ app.delete('/api/removefriend', async (req, res) => {
 app.put('/api/accept', async (req, res) => {
   try {
     const { token } = req.cookies;
-    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
+    jwt.verify(token, process.env.SECRET, {}, async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -345,7 +330,7 @@ app.delete('/api/reject', async (req, res) => {
   try {
     const { token } = req.cookies;
 
-    jwt.verify(token, process.env.SECRET,{} ,async (err, info) => {
+    jwt.verify(token, process.env.SECRET, {}, async (err, info) => {
       if (err) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -531,7 +516,7 @@ app.put('/api/editPost/:userid', async (req, res) => {
 
     const { token } = req.cookies;
     const { newCaption, post_id } = req.body;
-    const {userid} =req.params;
+    const { userid } = req.params;
     jwt.verify(token, process.env.SECRET, {}, async (err, info) => {
       if (err) {
         console.error('JWT verification error:', err);
@@ -543,11 +528,11 @@ app.put('/api/editPost/:userid', async (req, res) => {
       await Post.updateOne({ _id: post_id }, { $set: { caption: newCaption } });
       var posts
       console.log(userid)
-      if(userid === info.id ){
-        posts= await Post.find({author: info.id}).populate('author').sort({ createdAt: -1 });
-      
+      if (userid === info.id) {
+        posts = await Post.find({ author: info.id }).populate('author').sort({ createdAt: -1 });
+
       }
-      else{
+      else {
         posts = await Post.find().populate('author').sort({ createdAt: -1 });
       }
       res.json(posts);
@@ -720,24 +705,24 @@ app.post('/api/chats', async (req, res) => {
           $all: [info.id, userId]
         }
       })
-      
+
       if (isChat.length > 0) {
         await Chat.find({ users: { $elemMatch: { $eq: info.id } } })
-        .populate({
-          path: 'users',
-          select: 'firstName lastName profilePic _id',
-        })
-        .populate("latestMessage")
-        .sort({ updatedAt: -1 })
-        .then(
-          async (results) => {
-            results = await User.populate(results, {
-              path: "latestMessage.sender",
-              select: 'firstName lastName profilePic _id'
-            })
-            res.json(results);
-          }
-        )
+          .populate({
+            path: 'users',
+            select: 'firstName lastName profilePic _id',
+          })
+          .populate("latestMessage")
+          .sort({ updatedAt: -1 })
+          .then(
+            async (results) => {
+              results = await User.populate(results, {
+                path: "latestMessage.sender",
+                select: 'firstName lastName profilePic _id'
+              })
+              res.json(results);
+            }
+          )
       }
       else {
         var chatdata = {
@@ -746,21 +731,21 @@ app.post('/api/chats', async (req, res) => {
         }
         const createdChat = await Chat.create(chatdata);
         await Chat.find({ users: { $elemMatch: { $eq: info.id } } })
-        .populate({
-          path: 'users',
-          select: 'firstName lastName profilePic _id',
-        })
-        .populate("latestMessage")
-        .sort({ updatedAt: -1 })
-        .then(
-          async (results) => {
-            results = await User.populate(results, {
-              path: "latestMessage.sender",
-              select: 'firstName lastName profilePic _id'
-            })
-            res.json(results);
-          }
-        )
+          .populate({
+            path: 'users',
+            select: 'firstName lastName profilePic _id',
+          })
+          .populate("latestMessage")
+          .sort({ updatedAt: -1 })
+          .then(
+            async (results) => {
+              results = await User.populate(results, {
+                path: "latestMessage.sender",
+                select: 'firstName lastName profilePic _id'
+              })
+              res.json(results);
+            }
+          )
       }
     })
   }
@@ -853,9 +838,8 @@ app.get('/api/message/:chatId', async (req, res) => {
       }
       await mongoose.connect(process.env.DATABASE_URL);
       const marktrue = await Chat.findById(chatId).populate('latestMessage');
-      if(marktrue?.latestMessage?.sender!==info.id)
-      {
-        await Chat.findByIdAndUpdate(chatId,{read: true});
+      if (marktrue?.latestMessage?.sender !== info.id) {
+        await Chat.findByIdAndUpdate(chatId, { read: true });
       }
       const messages = await Message.find({ chat: chatId }).populate("sender", "firstName lastName profilePic _id").populate("chat").sort({ updatedAt: 1 });
       res.json(messages);
@@ -885,9 +869,9 @@ io.on("connection", (socket) => {
     try {
       const { userId, firstName, lastName, profilePic } = data;
       await mongoose.connect(process.env.DATABASE_URL);
-      const alreadyexists= await OnlineUser.find({userId: userId});
-      if(alreadyexists.length>0){
-        await OnlineUser.findOneAndDelete({userId: userId});
+      const alreadyexists = await OnlineUser.find({ userId: userId });
+      if (alreadyexists.length > 0) {
+        await OnlineUser.findOneAndDelete({ userId: userId });
       }
       await OnlineUser.create({
         userId,
@@ -896,7 +880,7 @@ io.on("connection", (socket) => {
         lastName,
         profilePic
       });
-    
+
     } catch (err) {
       console.error('Error handling userConnected event:', err);
     }
@@ -927,9 +911,9 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on('newMessage', async(payload)=>{
-    try{
-      const {senderId,  receiverId, chatId, content} = payload;
+  socket.on('newMessage', async (payload) => {
+    try {
+      const { senderId, receiverId, chatId, content } = payload;
       await mongoose.connect(process.env.DATABASE_URL);
       var newMessage = {
         sender: senderId,
@@ -943,21 +927,20 @@ io.on("connection", (socket) => {
         path: 'chat.users',
         select: 'firstName lastName profilePic _id'
       });
-      await Chat.findByIdAndUpdate(chatId, { latestMessage:  message});
-      await Chat.findByIdAndUpdate(chatId, { read:  false});
+      await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+      await Chat.findByIdAndUpdate(chatId, { read: false });
       const receiver = await OnlineUser.findOne({ userId: receiverId });
       const senderData = await OnlineUser.findOne({ userId: senderId });
-     
-      if(receiver)
-      {
-      
+
+      if (receiver) {
+
         io.to(receiver.socketId).emit('getMessage', message);
-        
+
       }
-      io.to(senderData.socketId).emit('getMessage',  message);
-      
+      io.to(senderData.socketId).emit('getMessage', message);
+
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   })
@@ -965,9 +948,9 @@ io.on("connection", (socket) => {
   socket.on('disconnect', async () => {
     try {
       await mongoose.connect(process.env.DATABASE_URL);
-    
+
       await OnlineUser.findOneAndDelete({ socketId: socket.id });
-      
+
     } catch (err) {
       console.error('Error handling socket disconnection:', err);
     }

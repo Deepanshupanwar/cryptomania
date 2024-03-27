@@ -160,7 +160,7 @@ apiKey.apiKey = process.env.PASSWORD_KEY
 
 const sender = {
 	email: process.env.GMAIL,
-	// name: 'Anjan Shomodder',
+	
 }
 
 const recivers = [
@@ -171,7 +171,7 @@ const recivers = [
 
 const transactionalEmailApi = new Sib.TransactionalEmailsApi()
 
-transactionalEmailApi
+const result = await transactionalEmailApi
 	.sendTransacEmail({
 		subject: 'Reset Password Link',
 		sender,
@@ -181,9 +181,8 @@ transactionalEmailApi
 			<a href="https://cryptomania-front.vercel.app/resetpassword/${user._id}/${token}">click here</a>
 		`,
 	})
-	.then(()=>{
-    res.json({status: "success"});
-  })
+
+  res.json({status: "success"});
 
 
   }

@@ -69,7 +69,7 @@ export default function MainPage() {
                 <div className="w-full md:w-1/3 p-2 main-middle">
                     <div className="max-h-[87vh] overflow-y-auto no-scrollbar">
                         <Uploader setPosts={setPosts} />
-                        <Post posts={posts} setPosts={setPosts} userid={id}/>
+                        { posts===null? <span> Loading... <span/> : <Post posts={posts} setPosts={setPosts} userid={id}/> }
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 p-2  main-news">
